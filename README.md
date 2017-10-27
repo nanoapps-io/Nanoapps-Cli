@@ -1,7 +1,9 @@
-For development, after making changes 
-`npm install `
-`npm run build`
-`npm link`
 
+
+#### Nanoapps
+
+To login to nanoapps `nanoapp login`
+
+To create and publish a nanoapp `nanoapp create`
 
 

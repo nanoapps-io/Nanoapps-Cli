@@ -1,14 +1,14 @@
 {
   "name": "nanoapps-cli",
-  "version": "1.0.5",
+  "version": "1.0.3",
   "description": "cli tool to create and publish nanoapps",
   "main": "src/index.js",
-  "bin": {
-    "nanoapp": "dist/index.js"
-  },
   "scripts": {
     "build": "babel src -d dist",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "nanoapp": "dist/index.js"
   },
   "author": "dineshswamy",
   "devDependencies": {

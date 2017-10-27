@@ -140,10 +140,6 @@ function CompilandUploadBundleFile() {
         console.log("nanoapp.json does not exist")
         return
     }
-    if (!fs.existsSync("icon.jpg")) {
-        console.log("icon.jpg does not exist")
-        return
-    }
 
     let bundleFile = fs.readFileSync(indexFile, 'utf8')
     let bundle_gen_cmd = 'node node_modules/react-native/local-cli/cli.js bundle --entry-file="'+indexFile+'" --bundle-output="./main.jsbundle" --dev=false --platform="android"' 
@@ -164,13 +160,12 @@ function CompilandUploadBundleFile() {
     data.append('main_component_name', indexComponent)
     data.append('bundle_file', fs.createReadStream('./main.jsbundle'), 'main.js');
     if(nanoappsJson['app_icon'] == null) {
-
+        console.log("Please provide an icon for the app");
     }
     data.append('app_icon', fs.createReadStream(nanoappsJson['app_icon']), nanoappsJson['app_icon']);
-    
     let options = {
         method: 'POST',
-        url: 'http://localhost:8090/api/nanoapp/upload',
+        url: configs.API_URL+'/nanoapp/upload',
         headers: {
             'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
             'X-Nanoapp-Token': 'Bearer ' + authToken
@@ -182,10 +177,9 @@ function CompilandUploadBundleFile() {
             if(response.data['status'] == 'success') {
                 console.log("nanoapp successfully created")
             } else if(response.data['status'] == 'success') {
-                console.log("nanoapp creation failed.")
-                console.log(response.data['message'])
+                console.log("Creating nanoapp failed. Please try again later")
             }
         }).catch(function (error) {
-            console.log(error);
+            console.log("Error Occurred. Please try again later")
         });
 }
