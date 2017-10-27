@@ -1,6 +1,6 @@
 {
   "name": "nanoapps-cli",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "cli tool to create and publish nanoapps",
   "main": "dist/index.js",
   "bin": {
