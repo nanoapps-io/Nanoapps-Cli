@@ -41,6 +41,10 @@ var _child_process = require("child_process");
 
 var _child_process2 = _interopRequireDefault(_child_process);
 
+var _md5File = require("md5-file");
+
+var _md5File2 = _interopRequireDefault(_md5File);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -51,6 +55,10 @@ _commander2.default.command('login').description('Login to nanoapps console').ac
 });
 
 _commander2.default.command('create').description('Create nanoapps').action(function () {
+    CompilandUploadBundleFile();
+});
+
+_commander2.default.command('update').description('update nanoapps').action(function () {
     CompilandUploadBundleFile();
 });
 
@@ -174,10 +182,12 @@ function CompilandUploadBundleFile() {
     data.append('version_name', nanoappsJson['version_name']);
     data.append('description', nanoappsJson['description']);
     data.append('main_component_name', indexComponent);
+    data.append('checksum', _md5File2.default.sync('./main.jsbundle'));
     data.append('bundle_file', _fs2.default.createReadStream('./main.jsbundle'), 'main.js');
     if (nanoappsJson['app_icon'] == null) {
         console.log("Please provide an icon for the app");
     }
+
     data.append('app_icon', _fs2.default.createReadStream(nanoappsJson['app_icon']), nanoappsJson['app_icon']);
     var options = {
         method: 'POST',

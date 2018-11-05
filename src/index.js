@@ -10,7 +10,7 @@ import program from "commander"
 import shell from "shelljs"
 import FormData from "form-data"
 import child_process from 'child_process'
-
+import md5File from 'md5-file'
 
 program
     .command('login')
@@ -26,6 +26,13 @@ program
     .action(() => {
         CompilandUploadBundleFile()
     });
+
+program
+    .command('update')
+    .description('update nanoapps')
+    .action(() => {
+        CompilandUploadBundleFile()
+    });    
 
 program.parse(process.argv);
 
@@ -158,10 +165,12 @@ function CompilandUploadBundleFile() {
     data.append('version_name',nanoappsJson['version_name'])
     data.append('description',nanoappsJson['description'])
     data.append('main_component_name', indexComponent)
+    data.append('checksum', md5File.sync('./main.jsbundle'))
     data.append('bundle_file', fs.createReadStream('./main.jsbundle'), 'main.js');
     if(nanoappsJson['app_icon'] == null) {
         console.log("Please provide an icon for the app");
     }
+    
     data.append('app_icon', fs.createReadStream(nanoappsJson['app_icon']), nanoappsJson['app_icon']);
     let options = {
         method: 'POST',
